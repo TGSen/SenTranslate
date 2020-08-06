@@ -3,7 +3,6 @@ package com.sen.translates
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.os.Environment
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
@@ -12,7 +11,6 @@ import android.widget.Toast
 import com.huawei.hmf.tasks.OnFailureListener
 import com.huawei.hmf.tasks.Task
 import com.huawei.hms.mlsdk.MLAnalyzerFactory
-import com.huawei.hms.mlsdk.common.MLApplication
 import com.huawei.hms.mlsdk.common.MLFrame
 import com.huawei.hms.mlsdk.text.MLRemoteTextSetting
 import com.huawei.hms.mlsdk.text.MLText
@@ -20,7 +18,6 @@ import com.huawei.hms.mlsdk.text.MLTextAnalyzer
 import com.huawei.hms.mlsdk.translate.MLTranslatorFactory
 import com.huawei.hms.mlsdk.translate.cloud.MLRemoteTranslateSetting
 import com.huawei.hms.mlsdk.translate.cloud.MLRemoteTranslator
-import java.io.File
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -33,13 +30,16 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        var path = Environment.getExternalStorageDirectory().absolutePath+"/Download/123.jpg"
+//        var path = Environment.getExternalStorageDirectory().absolutePath+"/Download/123.jpg"
 
-        originBitmap =  BitmapFactory.decodeFile(path)
+        originBitmap =  BitmapFactory.decodeResource(resources,R.drawable.e)
         var image = findViewById<ImageView>(R.id.image)
         image.setImageBitmap(originBitmap)
         findViewById<View>(R.id.start).setOnClickListener {
             createRemoteTextAnalyzer()
+        }
+        findViewById<View>(R.id.finish).setOnClickListener {
+            finish()
         }
     }
 
@@ -99,6 +99,7 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     Log.e("Harrison", "onsuccess fail")
                    displayFailure()
+
                 }
             }
                 .addOnFailureListener(OnFailureListener { e -> // Transacting logic for segment failure.
