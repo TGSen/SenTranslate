@@ -1,4 +1,4 @@
-package com.sen.translates
+package com.sen.translatev
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4

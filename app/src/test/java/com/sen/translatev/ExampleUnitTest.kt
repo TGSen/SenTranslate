@@ -1,4 +1,4 @@
-package com.sen.translates
+package com.sen.translatev
 
 import org.junit.Test
 

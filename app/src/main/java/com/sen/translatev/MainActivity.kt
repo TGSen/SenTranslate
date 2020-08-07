@@ -1,4 +1,4 @@
-package com.sen.translates
+package com.sen.translatev
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
