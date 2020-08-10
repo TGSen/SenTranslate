@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">SenTranslate</string>
+    <string name="hello">Hello</string>
+    <string name="hello_start">Lets create something news</string>
+    <string name="eidt_video">新建</string>
+    <string name="new_studio">新建</string>
 </resources>

@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">libbase</string>
+    <string name="message_permission_rationale">Grant the following permissions to continue the program:\n\n%1$s</string>
+    <string name="message_permission_always_failed">Please give us permission in the settings:\n\n%1$s</string>
+    <string name="message_setting_comeback">The user comes back from the settings page.</string>
+</resources>

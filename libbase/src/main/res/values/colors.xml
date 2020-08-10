@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--    <color name="colorPrimary">#15161c</color>-->
+<!--    <color name="colorPrimary">#15161c</color>-->
     <color name="colorPrimary">#000000</color>
 
     <color name="colorPrimaryDark">#000000</color>
@@ -11,7 +11,7 @@
     <color name="background_color">#ebebeb</color>
     <color name="bgcolor">#212329</color>
 
-    <color name="camera_album_bg">#060809</color>
+    <color name="camera_album_bg">#15161c</color>
     <color name="pink">#FC9D9A</color>
 
     <color name="text_color_v2">#7C7C7C</color>
@@ -42,7 +42,7 @@
     <color name="colorBlack">#000000</color>
     <color name="red_color_80">#CCFC4253</color>
 
-    <color name="red_color">#DA3F47</color>
+    <color name="red_color">#FC4253</color>
     <color name="color_d1d1d1">#D1D1D1</color>
     <color name="color_5b5b5b">#5b5b5b</color>
     <color name="color_BCB9BD">#BCB9BD</color>
