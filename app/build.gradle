@@ -5,6 +5,13 @@ apply plugin: 'com.huawei.agconnect'
 
 android {
     compileSdkVersion 28
+    dataBinding {
+        enabled = true
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 
     defaultConfig {
         applicationId "com.sen.translatev"
