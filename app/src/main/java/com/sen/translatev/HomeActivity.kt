@@ -1,5 +1,6 @@
 package com.sen.translatev
 
+import android.app.Dialog
 import android.view.View
 import android.widget.Toast
 import base.activity.BaseActivity
@@ -11,6 +12,7 @@ import com.sen.translatev.databinding.ActHomeBinding
 class HomeActivity : BaseActivity<ActHomeBinding>(), View.OnClickListener {
     val TAG_TAKE_PHOTO = 0
     val TAG_LOCAL_IMAGE = 1
+    private var dialog :Dialog?=null
     override fun setLayoutId(): Int {
         return R.layout.act_home
     }
@@ -25,11 +27,18 @@ class HomeActivity : BaseActivity<ActHomeBinding>(), View.OnClickListener {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        if(dialog!=null &&dialog!!.isShowing){
+            dialog?.dismiss()
+        }
+    }
+
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.tranlateImage -> {
 //                go(this@HomeActivity, ImagePickerActivity::class.java)
-                BottomSheet.Builder(MainActivity@this, R.style.BottomSheet_StyleDialog).title("图片选择")
+                dialog =  BottomSheet.Builder(MainActivity@this, R.style.BottomSheet_StyleDialog).title("图片选择")
                     .sheet(R.menu.dialog_menu)
                     .listener { dialog, which ->
                         when (which) {

@@ -8,4 +8,7 @@
         android:id="@+id/loacl_image"
         android:icon="@drawable/bg_cicle_48dp"
         android:title="本地图片" />
+    <item
+        android:id="@+id/loacl"
+        android:title="" />
 </menu>

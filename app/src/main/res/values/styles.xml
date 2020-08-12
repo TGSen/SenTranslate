@@ -14,13 +14,13 @@
 <!--    </style>-->
 
     <style name="BottomSheet.StyleDialog" parent="BottomSheet.Dialog">
-        <item name="android:backgroundDimAmount">0.5</item>
+        <item name="android:backgroundDimAmount">0.6</item>
         <item name="android:windowAnimationStyle">@style/BottomSheet.Animation</item>
         <item name="android:textColorPrimary">@color/colorPrimaryDark</item>
         <item name="android:textColorSecondary">@color/colorPrimaryDark</item>
         <item name="android:textSize">15sp</item>
         <item name="android:textColorHint">#42ffffff</item>
-        <item name="bs_dialogBackground">@drawable/bg_cicle_48dp</item>
+        <item name="bs_dialogBackground">@drawable/bg_rec</item>
         <item name="bs_dividerColor">@color/colorPrimaryDark</item>
         <item name="bs_numColumns">5</item>
         <item name="bs_listStyle">@style/BottomSheet.List</item>
