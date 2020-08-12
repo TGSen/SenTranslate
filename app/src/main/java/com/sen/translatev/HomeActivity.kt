@@ -14,18 +14,18 @@ class HomeActivity  : BaseActivity<ActHomeBinding>(), View.OnClickListener {
     override fun initView() {
 
         binding.apply {
-            createNew.setOnClickListener(this@HomeActivity)
-            eidtVideo.setOnClickListener(this@HomeActivity)
+            tranlateImage.setOnClickListener(this@HomeActivity)
+            pdfOption.setOnClickListener(this@HomeActivity)
 //            test.setOnClickListener(this@MainActivity)
         }
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.createNew -> {
+            R.id.tranlateImage -> {
 //                go(this@HomeActivity, ImagePickerActivity::class.java)
             }
-            R.id.eidtVideo -> {
+            R.id.pdfOption -> {
 //                go(this@MainActivity, LocalVideoActivity::class.java)
 
             }

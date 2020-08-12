@@ -48,14 +48,14 @@
                 android:id="@+id/features"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Features"
+                android:text="@string/tools"
                 android:textColor="@color/white"
                 android:textSize="14sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <LinearLayout
-                android:id="@+id/createNew"
+                android:id="@+id/tranlateImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
@@ -74,7 +74,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="8dp"
-                    android:text="@string/new_studio"
+                    android:text="@string/tranlate_image"
                     android:textColor="@color/color_BCB9BD"
                     android:textSize="12sp" />
 
@@ -83,13 +83,13 @@
 
 
             <LinearLayout
-                android:id="@+id/eidtVideo"
+                android:id="@+id/pdfOption"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="32dp"
                 android:orientation="vertical"
-                app:layout_constraintLeft_toRightOf="@+id/createNew"
-                app:layout_constraintTop_toTopOf="@+id/createNew">
+                app:layout_constraintLeft_toRightOf="@+id/tranlateImage"
+                app:layout_constraintTop_toTopOf="@+id/tranlateImage">
 
                 <ImageView
 
@@ -103,7 +103,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="8dp"
-                    android:text="@string/eidt_video"
+                    android:text="@string/pdf_option"
                     android:textColor="@color/color_BCB9BD"
                     android:textSize="12sp" />
 
