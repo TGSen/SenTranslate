@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/take_photo"
+        android:icon="@drawable/bg_cicle_48dp"
+        android:title="拍照" />
+    <item
+        android:id="@+id/loacl_image"
+        android:icon="@drawable/bg_cicle_48dp"
+        android:title="本地图片" />
+</menu>
