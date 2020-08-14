@@ -19,6 +19,9 @@ import java.util.List;
 public class SPermission {
 
     private static final int REQUEST_CODE_SETTING = 0;
+    public static final String[] CAMERA = new String[]{Permission.CAMERA,
+            Permission.WRITE_EXTERNAL_STORAGE};
+
 
     private SPermission() {
     }

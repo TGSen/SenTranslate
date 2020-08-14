@@ -16,8 +16,8 @@
     <style name="BottomSheet.StyleDialog" parent="BottomSheet.Dialog">
         <item name="android:backgroundDimAmount">0.6</item>
         <item name="android:windowAnimationStyle">@style/BottomSheet.Animation</item>
-        <item name="android:textColorPrimary">@color/colorPrimaryDark</item>
-        <item name="android:textColorSecondary">@color/colorPrimaryDark</item>
+        <item name="android:textColorPrimary">@color/color_BCB9BD</item>
+        <item name="android:textColorSecondary">@color/color_BCB9BD</item>
         <item name="android:textSize">15sp</item>
         <item name="android:textColorHint">#42ffffff</item>
         <item name="bs_dialogBackground">@drawable/bg_rec</item>
