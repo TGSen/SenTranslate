@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import android.support.v4.content.FileProvider
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import base.activity.BaseActivity
@@ -22,6 +23,9 @@ class HomeActivity : BaseActivity<ActHomeBinding>(), View.OnClickListener {
     val TAG_TAKE_PHOTO = 0
     val TAG_LOCAL_IMAGE = 1
     private var dialog: Dialog? = null
+    private var cameraSavePath:File ?= null
+    private var uri: Uri? = null
+    private var photoPath:String? = null
     override fun setLayoutId(): Int {
         return R.layout.act_home
     }
@@ -86,9 +90,9 @@ class HomeActivity : BaseActivity<ActHomeBinding>(), View.OnClickListener {
     }
 
     private fun goCamera() {
-        var uri: Uri? = null
-        var cameraSavePath = File(
-            Environment.getExternalStorageDirectory().getPath()
+
+        cameraSavePath  = File(
+            Environment.getExternalStorageDirectory().absolutePath
                 .toString() + "/" + System.currentTimeMillis() + ".jpg"
         )
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
@@ -97,14 +101,25 @@ class HomeActivity : BaseActivity<ActHomeBinding>(), View.OnClickListener {
             uri = FileProvider.getUriForFile(
                 HomeActivity@ this,
                 "com.sen.translatev.fileProvider",
-                cameraSavePath
+                cameraSavePath!!
             )
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         } else {
-            uri = Uri.fromFile(cameraSavePath)
+            uri = Uri.fromFile(this.cameraSavePath)
         }
         intent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
         startActivityForResult(intent, 1)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                photoPath = cameraSavePath.toString()
+            } else {
+                photoPath = uri?.encodedPath
+            }
+        }
     }
 
 
