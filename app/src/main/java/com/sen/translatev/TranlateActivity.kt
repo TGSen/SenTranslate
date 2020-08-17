@@ -10,7 +10,7 @@ class TranlateActivity  : BaseActivity<ActHomeBinding>(), View.OnClickListener {
     }
 
     override fun setLayoutId(): Int {
-        return R.layout.act_home
+        return R.layout.act_translate
     }
 
     override fun onClick(p0: View?) {

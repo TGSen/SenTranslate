@@ -16,6 +16,8 @@ import com.cocosw.bottomsheet.BottomSheet
 import com.sen.translatev.databinding.ActHomeBinding
 import com.yanzhenjie.permission.runtime.Permission
 import permission.SPermission
+import utils.SenDto
+import utils.go
 import java.io.File
 
 
@@ -114,11 +116,12 @@ class HomeActivity : BaseActivity<ActHomeBinding>(), View.OnClickListener {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1 && resultCode == RESULT_OK) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                photoPath = cameraSavePath.toString()
+            photoPath = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                cameraSavePath?.absolutePath
             } else {
-                photoPath = uri?.encodedPath
+                uri?.encodedPath
             }
+            go(HomeActivity@this,TranlateActivity::class.java,dto= SenDto(str1 = photoPath.orEmpty()))
         }
     }
 
