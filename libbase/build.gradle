@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 28
@@ -10,6 +11,9 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kapt {
+        generateStubs = true
     }
     defaultConfig {
         minSdkVersion 15
@@ -64,6 +68,7 @@ dependencies {
     api 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.0'
     api "com.android.support:recyclerview-v7:$android_support_version"
     api 'com.zhy:base-rvadapter:3.0.3'
+    implementation 'com.daimajia.androidanimations:library:2.3@aar'
     // Glide
     api 'com.github.bumptech.glide:glide:4.9.0'
 }
