@@ -8,10 +8,63 @@
         android:background="@color/colorPrimary"
         android:fitsSystemWindows="true">
 
-        <include layout="@layout/include_main_top"/>
+        <android.support.constraint.ConstraintLayout
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/constraint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <include android:id="@+id/includeContent"
-            layout="@layout/include_main_content"/>
+            <ImageView
+                android:id="@+id/srcImage"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@color/colorAccent"
+                app:layout_constraintDimensionRatio="h,4:3"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:scaleType="centerCrop"
+                android:transitionName="cardView"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="16dp"
+                android:padding="12dp"
+                android:src="@drawable/ic_close"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <!--这里为了方便，使用半透明色遮罩的方式来代替色差值的实现-->
+            <View
+                android:id="@+id/maskView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:alpha="0"
+                android:background="#80000000" />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/NestedScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_radius_8"
+            android:overScrollMode="never"
+            app:layout_behavior="@string/bottom_sheet_behavior">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
+
+
+            </android.support.constraint.ConstraintLayout>
+        </android.support.v4.widget.NestedScrollView>
 
     </android.support.design.widget.CoordinatorLayout>
 </layout>

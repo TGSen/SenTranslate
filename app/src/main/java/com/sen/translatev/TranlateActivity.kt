@@ -1,7 +1,9 @@
 package com.sen.translatev
 
 import android.animation.ObjectAnimator
+import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.support.constraint.ConstraintLayout
 import android.support.design.widget.BottomSheetBehavior
 import android.util.Log
@@ -10,8 +12,9 @@ import android.view.View
 import base.activity.BaseActivity
 import com.blankj.utilcode.util.ConvertUtils
 import com.sen.translatev.databinding.ActTranslateBinding
-import kotlinx.android.synthetic.main.include_main_content.view.*
 import kotlinx.android.synthetic.main.include_main_top.*
+import kotlinx.android.synthetic.main.include_main_top.view.*
+import utils.setImageContent
 
 class TranlateActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListener {
     private var heightPixels: Int = 0
@@ -23,10 +26,14 @@ class TranlateActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListen
     val TAG = "Harrison"
     override fun initView() {
         Log.e("Harrison", senDto.str1)
-//            setImageContent(binding.image, senDto.str1)
-        initSystem()
-//        initBehavior()
+        mHandler = Handler(Looper.getMainLooper())
+        setImageContent(binding.topLayout.rootView.srcImage, senDto.str1)
+    }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        initSystem()
+        initBehavior()
     }
 
     override fun setLayoutId(): Int {
@@ -37,7 +44,7 @@ class TranlateActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListen
     }
 
     private fun initBehavior() {
-        val behavior = BottomSheetBehavior.from(binding.includeContent.rootView.nestedScrollView)
+        val behavior = BottomSheetBehavior.from(binding.NestedScrollView)
         behavior.isHideable = true
         behavior.state = BottomSheetBehavior.STATE_HIDDEN
         behavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
@@ -89,7 +96,7 @@ class TranlateActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListen
             behavior.state = BottomSheetBehavior.STATE_COLLAPSED
             behavior.peekHeight = peekHeight
             ObjectAnimator.ofFloat(
-                binding.includeContent.rootView.nestedScrollView,
+                binding.NestedScrollView,
                 "alpha",
                 0f,
                 1f
