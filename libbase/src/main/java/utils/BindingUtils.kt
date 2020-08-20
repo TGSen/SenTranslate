@@ -34,6 +34,7 @@ fun setImageContent(iv: ImageView, url: String?) {
     Glide.with(iv.context)
             .load(url)
             .centerCrop()
+            .dontAnimate()
             .transition(DrawableTransitionOptions.withCrossFade()) //淡入淡出
             .into(iv)
 }

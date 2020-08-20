@@ -7,18 +7,15 @@ import android.os.Looper
 import android.support.constraint.ConstraintLayout
 import android.support.design.widget.BottomSheetBehavior
 import android.util.Log
-import android.util.TypedValue
 import android.view.View
 import base.activity.BaseActivity
 import com.blankj.utilcode.util.ConvertUtils
 import com.sen.translatev.databinding.ActTranslateBinding
-import kotlinx.android.synthetic.main.include_main_top.*
-import kotlinx.android.synthetic.main.include_main_top.view.*
+import kotlinx.android.synthetic.main.act_translate.*
 import utils.setImageContent
 
 class TranlateActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListener {
     private var heightPixels: Int = 0
-    private var peekHeight: Int = 0
     private var marginTop: Int = 0
     private var offsetDistance: Int = 0
     private lateinit var mHandler: Handler
@@ -27,12 +24,11 @@ class TranlateActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListen
     override fun initView() {
         Log.e("Harrison", senDto.str1)
         mHandler = Handler(Looper.getMainLooper())
-        setImageContent(binding.topLayout.rootView.srcImage, senDto.str1)
+        setImageContent(binding.srcImage, senDto.str1)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initSystem()
         initBehavior()
     }
 
@@ -78,45 +74,21 @@ class TranlateActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListen
                     constraint.translationY = -distance
                 }
 
-                Log.e(
-                    TAG,
-                    String.format(
-                        "slideOffset -->>> %s bottomSheet.getHeight() -->>> %s heightPixels -->>> %s",
-                        slideOffset,
-                        bottomSheet.height,
-                        heightPixels
-                    )
-                )
+//                Log.e(
+//                    TAG,
+//                    String.format(
+//                        "slideOffset -->>> %s bottomSheet.getHeight() -->>> %s heightPixels -->>> %s",
+//                        slideOffset,
+//                        bottomSheet.height,
+//                        heightPixels
+//                    )
+//                )
                 Log.e(TAG, String.format("distance -->>> %s", distance))
             }
 
         })
-        mHandler.postDelayed({
-            behavior.isHideable = false
-            behavior.state = BottomSheetBehavior.STATE_COLLAPSED
-            behavior.peekHeight = peekHeight
-            ObjectAnimator.ofFloat(
-                binding.NestedScrollView,
-                "alpha",
-                0f,
-                1f
-            ).setDuration(500).start()
-        }, 200)
-    }
-
-
-    private fun initSystem() {
         //获取屏幕高度
         heightPixels = resources.displayMetrics.heightPixels
-        Log.e(TAG, "heightPixels: $heightPixels")
-
-        val behaviorHeight = ConvertUtils.px2dp((heightPixels / 2).toFloat())
-        peekHeight =
-            TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                behaviorHeight.toFloat(), resources.displayMetrics
-            ).toInt()
-        Log.e(TAG, "peekHeight: $peekHeight")
 
         imageView.post {
             val lp = imageView.layoutParams as ConstraintLayout.LayoutParams
@@ -131,7 +103,19 @@ class TranlateActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListen
             marginTop = imageView.height + lp.topMargin + lp.bottomMargin / 2 + statusBarHeight
             //返回按钮至根布局的距离
             offsetDistance = lp.topMargin
+
+            behavior.isHideable = false
+            behavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            behavior.peekHeight = resources.displayMetrics.widthPixels * 3 / 4 + statusBarHeight+ConvertUtils.dp2px(16.0f)
+            ObjectAnimator.ofFloat(
+                binding.NestedScrollView,
+                "alpha",
+                0f,
+                1f
+            ).setDuration(500).start()
         }
+
     }
+
 
 }

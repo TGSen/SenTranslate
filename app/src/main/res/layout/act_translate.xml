@@ -5,11 +5,9 @@
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimary"
         android:fitsSystemWindows="true">
 
-        <android.support.constraint.ConstraintLayout
-            xmlns:tools="http://schemas.android.com/tools"
+        <android.support.constraint.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/constraint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -19,11 +17,11 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:background="@color/colorAccent"
-                app:layout_constraintDimensionRatio="h,4:3"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
                 android:scaleType="centerCrop"
                 android:transitionName="cardView"
+                app:layout_constraintDimensionRatio="w,3:4"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
@@ -52,15 +50,14 @@
             android:id="@+id/NestedScrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/bg_radius_8"
+            android:background="@drawable/bg_radius_8_top_lr"
             android:overScrollMode="never"
             app:layout_behavior="@string/bottom_sheet_behavior">
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp">
+               >
 
 
             </android.support.constraint.ConstraintLayout>
