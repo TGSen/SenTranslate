@@ -3,12 +3,13 @@ package com.sen.translatev
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.support.constraint.ConstraintLayout
 import android.support.design.widget.BottomSheetBehavior
 import android.util.Log
 import android.view.View
+import android.widget.FrameLayout
 import base.activity.BaseActivity
 import com.blankj.utilcode.util.ConvertUtils
+import com.gyf.immersionbar.ktx.immersionBar
 import com.sen.translatev.databinding.ActTranslateBinding
 import kotlinx.android.synthetic.main.act_translate.*
 import utils.setImageContent
@@ -28,6 +29,9 @@ class TranlateActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListen
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        immersionBar {
+            transparentStatusBar()
+        }
         initBehavior()
     }
 
@@ -93,7 +97,7 @@ class TranlateActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListen
 
         imageView.post {
             setImageContent(binding.srcImage, senDto.str1)
-            val lp = imageView.layoutParams as ConstraintLayout.LayoutParams
+            val lp = imageView.layoutParams as FrameLayout.LayoutParams
 
             //获取状态栏高度
             var statusBarHeight = 0
