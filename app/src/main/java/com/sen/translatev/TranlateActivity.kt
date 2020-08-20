@@ -1,6 +1,5 @@
 package com.sen.translatev
 
-import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -24,7 +23,7 @@ class TranlateActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListen
     override fun initView() {
         Log.e("Harrison", senDto.str1)
         mHandler = Handler(Looper.getMainLooper())
-        setImageContent(binding.srcImage, senDto.str1)
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -89,8 +88,11 @@ class TranlateActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListen
         })
         //获取屏幕高度
         heightPixels = resources.displayMetrics.heightPixels
+        behavior.isHideable = false
+        behavior.state = BottomSheetBehavior.STATE_COLLAPSED
 
         imageView.post {
+            setImageContent(binding.srcImage, senDto.str1)
             val lp = imageView.layoutParams as ConstraintLayout.LayoutParams
 
             //获取状态栏高度
@@ -100,19 +102,14 @@ class TranlateActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListen
                 statusBarHeight = resources.getDimensionPixelSize(resourceId)
             }
             //返回按钮至屏幕顶部的高度
-            marginTop = imageView.height + lp.topMargin + lp.bottomMargin / 2 + statusBarHeight
+            marginTop = imageView.height + lp.topMargin + lp.bottomMargin / 2+statusBarHeight
             //返回按钮至根布局的距离
             offsetDistance = lp.topMargin
+            behavior.peekHeight =
+                resources.displayMetrics.widthPixels * 3 / 4  + ConvertUtils.dp2px(
+                    48.0f
+                )
 
-            behavior.isHideable = false
-            behavior.state = BottomSheetBehavior.STATE_COLLAPSED
-            behavior.peekHeight = resources.displayMetrics.widthPixels * 3 / 4 + statusBarHeight+ConvertUtils.dp2px(16.0f)
-            ObjectAnimator.ofFloat(
-                binding.NestedScrollView,
-                "alpha",
-                0f,
-                1f
-            ).setDuration(500).start()
         }
 
     }
