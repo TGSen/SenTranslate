@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.support.design.widget.BottomSheetBehavior
+import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
@@ -11,8 +12,11 @@ import base.activity.BaseActivity
 import com.blankj.utilcode.util.ConvertUtils
 import com.gyf.immersionbar.ktx.immersionBar
 import com.sen.translatev.databinding.ActTranslateBinding
+import com.zhy.adapter.recyclerview.CommonAdapter
+import com.zhy.adapter.recyclerview.base.ViewHolder
 import kotlinx.android.synthetic.main.act_translate.*
 import utils.setImageContent
+
 
 class TranlateActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListener {
     private var heightPixels: Int = 0
@@ -33,6 +37,26 @@ class TranlateActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListen
             transparentStatusBar()
         }
         initBehavior()
+        initRecycleView()
+    }
+
+    private fun initRecycleView() {
+        var list = ArrayList<String>()
+        for (index in 1..100){
+            list.add("index $index")
+        }
+        binding.recyclerView.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
+        binding.recyclerView.adapter = object :
+            CommonAdapter<String>(this, R.layout.item_translate_layout, list ) {
+            override fun convert(holder: ViewHolder?, t: String?, position: Int) {
+                holder?.setText(R.id.position, position.toString())
+                holder?.setText(R.id.content,t.orEmpty())
+            }
+        }
+    }
+
+    override fun initData() {
+        super.initData()
     }
 
     override fun setLayoutId(): Int {
