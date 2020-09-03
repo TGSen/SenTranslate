@@ -99,7 +99,6 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     Log.e("Harrison", "onsuccess fail")
                    displayFailure()
-
                 }
             }
                 .addOnFailureListener(OnFailureListener { e -> // Transacting logic for segment failure.

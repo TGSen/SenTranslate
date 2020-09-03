@@ -1,5 +1,6 @@
 package com.sen.translatev
 
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -11,6 +12,14 @@ import android.widget.FrameLayout
 import base.activity.BaseActivity
 import com.blankj.utilcode.util.ConvertUtils
 import com.gyf.immersionbar.ktx.immersionBar
+import com.huawei.hmf.tasks.OnFailureListener
+import com.huawei.hmf.tasks.Task
+import com.huawei.hms.mlsdk.MLAnalyzerFactory
+import com.huawei.hms.mlsdk.common.MLFrame
+import com.huawei.hms.mlsdk.text.MLRemoteTextSetting
+import com.huawei.hms.mlsdk.text.MLText
+import com.huawei.hms.mlsdk.text.MLTextAnalyzer
+import com.huawei.hms.mlsdk.translate.cloud.MLRemoteTranslator
 import com.sen.translatev.databinding.ActTranslateBinding
 import com.zhy.adapter.recyclerview.CommonAdapter
 import com.zhy.adapter.recyclerview.base.ViewHolder
@@ -23,6 +32,12 @@ class TranlateActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListen
     private var marginTop: Int = 0
     private var offsetDistance: Int = 0
     private lateinit var mHandler: Handler
+    private val STATE_ERROR_TEXT_ANALYZER = 2
+    private val STATE_ERROR_TEXT_TRANSLATE = 3
+    private val STATE_IDEO = 1
+    private var currentState = STATE_IDEO
+
+    private var textAnalyzer: MLTextAnalyzer? = null
 
     val TAG = "Harrison"
     override fun initView() {
@@ -42,21 +57,25 @@ class TranlateActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListen
 
     private fun initRecycleView() {
         var list = ArrayList<String>()
-        for (index in 1..100){
+        for (index in 1..100) {
             list.add("index $index")
         }
-        binding.recyclerView.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
+        binding.recyclerView.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.recyclerView.adapter = object :
-            CommonAdapter<String>(this, R.layout.item_translate_layout, list ) {
+            CommonAdapter<String>(this, R.layout.item_translate_layout, list) {
             override fun convert(holder: ViewHolder?, t: String?, position: Int) {
                 holder?.setText(R.id.position, position.toString())
-                holder?.setText(R.id.content,t.orEmpty())
+                holder?.setText(R.id.content, t.orEmpty())
             }
         }
     }
 
     override fun initData() {
         super.initData()
+        if(this.currentState == STATE_IDEO){
+
+        }
     }
 
     override fun setLayoutId(): Int {
@@ -64,6 +83,8 @@ class TranlateActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListen
     }
 
     override fun onClick(p0: View?) {
+        when(p0?.id){
+        }
     }
 
     private fun initBehavior() {
@@ -119,9 +140,9 @@ class TranlateActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListen
         behavior.isHideable = false
         behavior.state = BottomSheetBehavior.STATE_COLLAPSED
 
-        imageView.post {
+        srcImage.post {
             setImageContent(binding.srcImage, senDto.str1)
-            val lp = imageView.layoutParams as FrameLayout.LayoutParams
+            val lp = imageClose.layoutParams as FrameLayout.LayoutParams
 
             //获取状态栏高度
             var statusBarHeight = 0
@@ -130,15 +151,97 @@ class TranlateActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListen
                 statusBarHeight = resources.getDimensionPixelSize(resourceId)
             }
             //返回按钮至屏幕顶部的高度
-            marginTop = imageView.height + lp.topMargin + lp.bottomMargin / 2+statusBarHeight
+            marginTop = imageClose.height + lp.topMargin + lp.bottomMargin / 2 + statusBarHeight
             //返回按钮至根布局的距离
             offsetDistance = lp.topMargin
             behavior.peekHeight =
-                resources.displayMetrics.widthPixels * 3 / 4  + ConvertUtils.dp2px(
+                resources.displayMetrics.widthPixels * 3 / 4 + ConvertUtils.dp2px(
                     48.0f
                 )
+            errorTryWork()
+        }
+
+    }
+
+    private fun errorTryWork(){
+        if(currentState==STATE_ERROR_TEXT_ANALYZER || currentState ==STATE_IDEO){
+            createRemoteTextAnalyzer()
+        }else{
 
         }
+    }
+
+    //创建远程文本分析器，去识别文本
+    private fun createRemoteTextAnalyzer() {
+        val setting =
+            MLRemoteTextSetting.Factory().setTextDensityScene(MLRemoteTextSetting.OCR_LOOSE_SCENE)
+                .create()
+        this.textAnalyzer = MLAnalyzerFactory.getInstance().getRemoteTextAnalyzer(setting)
+        srcImage.isDrawingCacheEnabled = true;
+        var bitmap = Bitmap.createBitmap(srcImage.drawingCache);
+        srcImage.isDrawingCacheEnabled = false;
+        val mlFrame = MLFrame.Creator().setBitmap(bitmap).create()
+        val task: Task<MLText> = this.textAnalyzer?.asyncAnalyseFrame(mlFrame)!!
+        task.addOnSuccessListener { mlText -> // Transacting logic for segment success.
+            if (mlText != null) {
+                currentState = STATE_IDEO
+                remoteDetectSuccess(mlText)
+            } else {
+                Log.e("Harrison", "onsuccess fail")
+                displayFailure()
+                currentState = STATE_ERROR_TEXT_ANALYZER
+            }
+        }
+            .addOnFailureListener(OnFailureListener { e -> // Transacting logic for segment failure.
+                Log.e("Harrison", "onFailure fail " + e.localizedMessage)
+                currentState = STATE_ERROR_TEXT_ANALYZER
+                displayFailure()
+                return@OnFailureListener
+            })
+    }
+
+    private fun remoteDetectSuccess(mlTexts: MLText) {
+        var sourceText = ""
+        val blocks = mlTexts.blocks
+        val lines: MutableList<MLText.TextLine> =
+            java.util.ArrayList()
+        for (block in blocks) {
+            for (line in block.contents) {
+                if (line.stringValue != null) {
+                    lines.add(line)
+                }
+            }
+        }
+        lines.sortWith(Comparator { o1, o2 ->
+            val point1 = o1.vertexes
+            val point2 = o2.vertexes
+            point1[0].y - point2[0].y
+        })
+        for (i in lines.indices) {
+            sourceText = sourceText + lines[i].stringValue.trim { it <= ' ' } + "\n"
+        }
+        this.createRemoteTranslator()
+    }
+
+    private var translator: MLRemoteTranslator? = null
+    private fun createRemoteTranslator() {
+//        val factory =
+//            MLRemoteTranslateSetting.Factory() // Set the target language code. The ISO 639-1 standard is used.
+//                .setTargetLangCode(this.dstLanguage)
+//        factory.setSourceLangCode(this.srcLanguage)
+//        this.translator = MLTranslatorFactory.getInstance().getRemoteTranslator(factory.create())
+//        val task: Task<String> =
+//            translator?.asyncTranslate(sourceText)!!
+//        task.addOnSuccessListener { text ->
+//            if (text != null) {
+//                remoteDisplaySuccess(text)
+//            } else {
+//                displayFailure()
+//            }
+//        }.addOnFailureListener { displayFailure() }
+    }
+
+    private fun displayFailure() {
 
     }
 
