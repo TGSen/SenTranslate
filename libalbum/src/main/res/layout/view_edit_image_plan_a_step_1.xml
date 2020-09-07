@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="30dp">
+
+
+
+        <ImageView
+            android:id="@+id/turn_left"
+            style="@style/EditImageStep1Image"
+            android:src="@mipmap/left" />
+
+        <ImageView
+            android:id="@+id/reset"
+            style="@style/EditImageStep1Image"
+            android:src="@mipmap/org" />
+
+        <ImageView
+            android:id="@+id/resize"
+            style="@style/EditImageStep1Image"
+            android:src="@mipmap/size" />
+
+        <ImageView
+            android:id="@+id/turn_right"
+            style="@style/EditImageStep1Image"
+            android:src="@mipmap/right" />
+
+
+    </LinearLayout>
+</layout>

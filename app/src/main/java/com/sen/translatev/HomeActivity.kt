@@ -7,14 +7,13 @@ import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import android.support.v4.content.FileProvider
-import android.util.Log
 import android.view.View
-import android.widget.Toast
 import base.activity.BaseActivity
 import com.blankj.utilcode.util.ToastUtils
 import com.cocosw.bottomsheet.BottomSheet
+import com.sen.translatev.activity.ImagePickerActivity
 import com.sen.translatev.databinding.ActHomeBinding
-import com.yanzhenjie.permission.runtime.Permission
+import imagepicker.MediaFile
 import permission.SPermission
 import utils.SenDto
 import utils.go
@@ -74,12 +73,9 @@ class HomeActivity : BaseActivity<ActHomeBinding>(), View.OnClickListener {
 
                                     })
                             }
-                            R.id.loacl_image -> Toast.makeText(
-                                MainActivity@ this,
-                                "本地图片",
-                                Toast.LENGTH_SHORT
-                            )
-                                .show()
+                            R.id.loacl_image -> {
+                                go(HomeActivity@this, ImagePickerActivity::class.java)
+                            }
 
                         }
                     }.show()
@@ -121,7 +117,9 @@ class HomeActivity : BaseActivity<ActHomeBinding>(), View.OnClickListener {
             } else {
                 uri?.encodedPath
             }
-            go(HomeActivity@this,TranlateActivity::class.java,dto= SenDto(str1 = photoPath.orEmpty()))
+            var mediaFile = MediaFile()
+            mediaFile.path = photoPath.orEmpty()
+            go(HomeActivity@this,TranlateActivity::class.java,dto= SenDto(list = arrayListOf(mediaFile)))
         }
     }
 

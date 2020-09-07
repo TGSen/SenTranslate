@@ -23,6 +23,7 @@ import com.huawei.hms.mlsdk.translate.cloud.MLRemoteTranslator
 import com.sen.translatev.databinding.ActTranslateBinding
 import com.zhy.adapter.recyclerview.CommonAdapter
 import com.zhy.adapter.recyclerview.base.ViewHolder
+import imagepicker.MediaFile
 import kotlinx.android.synthetic.main.act_translate.*
 import utils.setImageContent
 
@@ -141,7 +142,8 @@ class TranlateActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListen
         behavior.state = BottomSheetBehavior.STATE_COLLAPSED
 
         srcImage.post {
-            setImageContent(binding.srcImage, senDto.str1)
+            var pathList = senDto.list as ArrayList<MediaFile>
+            setImageContent(binding.srcImage, pathList[0].path)
             val lp = imageClose.layoutParams as FrameLayout.LayoutParams
 
             //获取状态栏高度

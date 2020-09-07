@@ -59,4 +59,5 @@ dependencies {
     implementation 'com.tencent.bugly:crashreport:latest.release'
     implementation 'com.zhy:base-rvadapter:3.0.3'
 
+    implementation project(path: ':libalbum')
 }
