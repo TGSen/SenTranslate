@@ -1,6 +1,7 @@
 package com.sen.translatev
 
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -39,6 +40,8 @@ class TranlateActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListen
     private var currentState = STATE_IDEO
 
     private var textAnalyzer: MLTextAnalyzer? = null
+    private var srcTextList :ArrayList<MLText.TextLine> = ArrayList()
+    private var srcImagePath:String? = null
 
     val TAG = "Harrison"
     override fun initView() {
@@ -57,17 +60,13 @@ class TranlateActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListen
     }
 
     private fun initRecycleView() {
-        var list = ArrayList<String>()
-        for (index in 1..100) {
-            list.add("index $index")
-        }
+
         binding.recyclerView.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.recyclerView.adapter = object :
-            CommonAdapter<String>(this, R.layout.item_translate_layout, list) {
-            override fun convert(holder: ViewHolder?, t: String?, position: Int) {
-                holder?.setText(R.id.position, position.toString())
-                holder?.setText(R.id.content, t.orEmpty())
+            CommonAdapter<MLText.TextLine>(this, R.layout.item_translate_layout, srcTextList) {
+            override fun convert(holder: ViewHolder?, t: MLText.TextLine?, position: Int) {
+                holder?.setText(R.id.content, t?.stringValue)
             }
         }
     }
@@ -132,7 +131,7 @@ class TranlateActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListen
 //                        heightPixels
 //                    )
 //                )
-                Log.e(TAG, String.format("distance -->>> %s", distance))
+//                Log.e(TAG, String.format("distance -->>> %s", distance))
             }
 
         })
@@ -143,7 +142,8 @@ class TranlateActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListen
 
         srcImage.post {
             var pathList = senDto.list as ArrayList<MediaFile>
-            setImageContent(binding.srcImage, pathList[0].path)
+            srcImagePath = pathList[0].path
+            setImageContent(binding.srcImage, srcImagePath)
             val lp = imageClose.layoutParams as FrameLayout.LayoutParams
 
             //获取状态栏高度
@@ -167,9 +167,10 @@ class TranlateActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListen
 
     private fun errorTryWork(){
         if(currentState==STATE_ERROR_TEXT_ANALYZER || currentState ==STATE_IDEO){
+            Log.e("Harrison","**************errorTryWork")
             createRemoteTextAnalyzer()
         }else{
-
+            Log.e("Harrison","**************errorTryWork else")
         }
     }
 
@@ -179,9 +180,7 @@ class TranlateActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListen
             MLRemoteTextSetting.Factory().setTextDensityScene(MLRemoteTextSetting.OCR_LOOSE_SCENE)
                 .create()
         this.textAnalyzer = MLAnalyzerFactory.getInstance().getRemoteTextAnalyzer(setting)
-        srcImage.isDrawingCacheEnabled = true;
-        var bitmap = Bitmap.createBitmap(srcImage.drawingCache);
-        srcImage.isDrawingCacheEnabled = false;
+        var bitmap = BitmapFactory.decodeFile(srcImagePath)
         val mlFrame = MLFrame.Creator().setBitmap(bitmap).create()
         val task: Task<MLText> = this.textAnalyzer?.asyncAnalyseFrame(mlFrame)!!
         task.addOnSuccessListener { mlText -> // Transacting logic for segment success.
@@ -203,25 +202,20 @@ class TranlateActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListen
     }
 
     private fun remoteDetectSuccess(mlTexts: MLText) {
-        var sourceText = ""
         val blocks = mlTexts.blocks
-        val lines: MutableList<MLText.TextLine> =
-            java.util.ArrayList()
         for (block in blocks) {
             for (line in block.contents) {
                 if (line.stringValue != null) {
-                    lines.add(line)
+                    srcTextList.add(line)
                 }
             }
         }
-        lines.sortWith(Comparator { o1, o2 ->
+        srcTextList.sortWith(Comparator { o1, o2 ->
             val point1 = o1.vertexes
             val point2 = o2.vertexes
             point1[0].y - point2[0].y
         })
-        for (i in lines.indices) {
-            sourceText = sourceText + lines[i].stringValue.trim { it <= ' ' } + "\n"
-        }
+        binding.recyclerView.adapter?.notifyDataSetChanged()
         this.createRemoteTranslator()
     }
 
