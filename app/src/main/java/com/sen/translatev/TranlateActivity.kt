@@ -157,7 +157,7 @@ class TranlateActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListen
             //返回按钮至根布局的距离
             offsetDistance = lp.topMargin
             behavior.peekHeight =
-                resources.displayMetrics.heightPixels-  resources.displayMetrics.widthPixels * 3 / 4+ConvertUtils.dp2px(12.0f)
+                resources.displayMetrics.heightPixels-  resources.displayMetrics.widthPixels * 3 / 4+ConvertUtils.dp2px(24.0f)
             errorTryWork()
         }
 
