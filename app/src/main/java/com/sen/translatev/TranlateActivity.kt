@@ -185,6 +185,7 @@ class TranlateActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListen
             if (mlText != null) {
                 currentState = STATE_IDEO
                 remoteDetectSuccess(mlText)
+
             } else {
                 Log.e("Harrison", "onsuccess fail")
                 displayFailure()
@@ -214,6 +215,9 @@ class TranlateActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListen
             point1[0].y - point2[0].y
         })
         binding.recyclerView.adapter?.notifyDataSetChanged()
+        if(srcTextList.isNotEmpty()){
+            binding.bottomTools.visibility = View.VISIBLE
+        }
         this.createRemoteTranslator()
     }
 
