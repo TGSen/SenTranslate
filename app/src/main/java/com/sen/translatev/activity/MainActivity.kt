@@ -1,4 +1,4 @@
-package com.sen.translatev
+package com.sen.translatev.activity
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -18,6 +18,7 @@ import com.huawei.hms.mlsdk.text.MLTextAnalyzer
 import com.huawei.hms.mlsdk.translate.MLTranslatorFactory
 import com.huawei.hms.mlsdk.translate.cloud.MLRemoteTranslateSetting
 import com.huawei.hms.mlsdk.translate.cloud.MLRemoteTranslator
+import com.sen.translatev.R
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -32,7 +33,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 //        var path = Environment.getExternalStorageDirectory().absolutePath+"/Download/123.jpg"
 
-        originBitmap =  BitmapFactory.decodeResource(resources,R.drawable.e)
+        originBitmap =  BitmapFactory.decodeResource(resources,
+            R.drawable.e
+        )
         var image = findViewById<ImageView>(R.id.image)
         image.setImageBitmap(originBitmap)
         findViewById<View>(R.id.start).setOnClickListener {

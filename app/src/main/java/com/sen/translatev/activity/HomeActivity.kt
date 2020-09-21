@@ -1,4 +1,4 @@
-package com.sen.translatev
+package com.sen.translatev.activity
 
 import android.app.Dialog
 import android.content.Intent
@@ -11,7 +11,7 @@ import android.view.View
 import base.activity.BaseActivity
 import com.blankj.utilcode.util.ToastUtils
 import com.cocosw.bottomsheet.BottomSheet
-import com.sen.translatev.activity.ImagePickerActivity
+import com.sen.translatev.R
 import com.sen.translatev.databinding.ActHomeBinding
 import imagepicker.MediaFile
 import permission.SPermission
@@ -52,7 +52,9 @@ class HomeActivity : BaseActivity<ActHomeBinding>(), View.OnClickListener {
         when (v?.id) {
             R.id.tranlateImage -> {
 //                go(this@HomeActivity, ImagePickerActivity::class.java)
-                dialog = BottomSheet.Builder(MainActivity@ this, R.style.BottomSheet_StyleDialog)
+                dialog = BottomSheet.Builder(MainActivity@ this,
+                    R.style.BottomSheet_StyleDialog
+                )
                     .title("图片选择")
                     .sheet(R.menu.dialog_menu)
                     .listener { dialog, which ->
@@ -81,7 +83,7 @@ class HomeActivity : BaseActivity<ActHomeBinding>(), View.OnClickListener {
                     }.show()
             }
             R.id.pdfOption -> {
-
+                go(HomeActivity@this, ImagePickerActivity::class.java)
 
             }
         }
@@ -119,7 +121,8 @@ class HomeActivity : BaseActivity<ActHomeBinding>(), View.OnClickListener {
             }
             var mediaFile = MediaFile()
             mediaFile.path = photoPath.orEmpty()
-            go(HomeActivity@this,TranlateActivity::class.java,dto= SenDto(list = arrayListOf(mediaFile)))
+            go(HomeActivity@this,
+                TranlateActivity::class.java,dto= SenDto(list = arrayListOf(mediaFile)))
         }
     }
 

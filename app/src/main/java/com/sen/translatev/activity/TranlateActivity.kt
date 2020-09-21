@@ -1,6 +1,5 @@
-package com.sen.translatev
+package com.sen.translatev.activity
 
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Handler
@@ -21,6 +20,7 @@ import com.huawei.hms.mlsdk.text.MLRemoteTextSetting
 import com.huawei.hms.mlsdk.text.MLText
 import com.huawei.hms.mlsdk.text.MLTextAnalyzer
 import com.huawei.hms.mlsdk.translate.cloud.MLRemoteTranslator
+import com.sen.translatev.R
 import com.sen.translatev.databinding.ActTranslateBinding
 import com.zhy.adapter.recyclerview.CommonAdapter
 import com.zhy.adapter.recyclerview.base.ViewHolder
@@ -64,7 +64,8 @@ class TranlateActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListen
         binding.recyclerView.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.recyclerView.adapter = object :
-            CommonAdapter<MLText.TextLine>(this, R.layout.item_translate_layout, srcTextList) {
+            CommonAdapter<MLText.TextLine>(this,
+                R.layout.item_translate_layout, srcTextList) {
             override fun convert(holder: ViewHolder?, t: MLText.TextLine?, position: Int) {
                 holder?.setText(R.id.content, t?.stringValue)
             }

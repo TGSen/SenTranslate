@@ -1,4 +1,4 @@
-package com.sen.translatev;
+package com.sen.translatev.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -30,7 +30,7 @@ import com.huawei.hiai.vision.common.VisionBase;
 import com.huawei.hiai.vision.image.sr.TxtImageSuperResolution;
 import com.huawei.hiai.vision.visionkit.common.Frame;
 import com.huawei.hiai.vision.visionkit.image.ImageResult;
-import com.tencent.bugly.crashreport.CrashReport;
+import com.sen.translatev.R;
 
 import java.io.File;
 import java.text.SimpleDateFormat;

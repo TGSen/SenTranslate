@@ -13,7 +13,6 @@ import android.widget.Toast
 import base.activity.BaseActivity
 import com.blankj.utilcode.util.ToastUtils
 import com.sen.translatev.R
-import com.sen.translatev.TranlateActivity
 import com.sen.translatev.databinding.ActivityImagepickerBinding
 import com.yanzhenjie.permission.runtime.Permission
 import image.load.GlideLoader
