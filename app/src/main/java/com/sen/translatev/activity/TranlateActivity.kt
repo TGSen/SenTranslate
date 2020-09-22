@@ -1,6 +1,7 @@
 package com.sen.translatev.activity
 
 import android.graphics.BitmapFactory
+import android.graphics.drawable.LayerDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
