@@ -27,6 +27,7 @@ import com.zhy.adapter.recyclerview.base.ViewHolder
 import imagepicker.MediaFile
 import kotlinx.android.synthetic.main.act_translate.*
 import utils.setImageContent
+import utils.setOnSingleClickListener
 
 
 class TranlateActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListener {
@@ -40,13 +41,14 @@ class TranlateActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListen
     private var currentState = STATE_IDEO
 
     private var textAnalyzer: MLTextAnalyzer? = null
-    private var srcTextList :ArrayList<MLText.TextLine> = ArrayList()
-    private var srcImagePath:String? = null
+    private var srcTextList: ArrayList<MLText.TextLine> = ArrayList()
+    private var srcImagePath: String? = null
 
     val TAG = "Harrison"
     override fun initView() {
         Log.e("Harrison", senDto.str1)
         mHandler = Handler(Looper.getMainLooper())
+        imageClose.setOnSingleClickListener(this)
 
     }
 
@@ -64,8 +66,10 @@ class TranlateActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListen
         binding.recyclerView.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.recyclerView.adapter = object :
-            CommonAdapter<MLText.TextLine>(this,
-                R.layout.item_translate_layout, srcTextList) {
+            CommonAdapter<MLText.TextLine>(
+                this,
+                R.layout.item_translate_layout, srcTextList
+            ) {
             override fun convert(holder: ViewHolder?, t: MLText.TextLine?, position: Int) {
                 holder?.setText(R.id.content, t?.stringValue)
             }
@@ -74,7 +78,7 @@ class TranlateActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListen
 
     override fun initData() {
         super.initData()
-        if(this.currentState == STATE_IDEO){
+        if (this.currentState == STATE_IDEO) {
 
         }
     }
@@ -84,7 +88,8 @@ class TranlateActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListen
     }
 
     override fun onClick(p0: View?) {
-        when(p0?.id){
+        when (p0?.id) {
+            R.id.imageClose -> finish()
         }
     }
 
@@ -158,18 +163,20 @@ class TranlateActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListen
             //返回按钮至根布局的距离
             offsetDistance = lp.topMargin
             behavior.peekHeight =
-                resources.displayMetrics.heightPixels-  resources.displayMetrics.widthPixels * 3 / 4+ConvertUtils.dp2px(24.0f)
+                resources.displayMetrics.heightPixels - resources.displayMetrics.widthPixels * 3 / 4 + ConvertUtils.dp2px(
+                    24.0f
+                )
             errorTryWork()
         }
 
     }
 
-    private fun errorTryWork(){
-        if(currentState==STATE_ERROR_TEXT_ANALYZER || currentState ==STATE_IDEO){
-            Log.e("Harrison","**************errorTryWork")
+    private fun errorTryWork() {
+        if (currentState == STATE_ERROR_TEXT_ANALYZER || currentState == STATE_IDEO) {
+            Log.e("Harrison", "**************errorTryWork")
             createRemoteTextAnalyzer()
-        }else{
-            Log.e("Harrison","**************errorTryWork else")
+        } else {
+            Log.e("Harrison", "**************errorTryWork else")
         }
     }
 
@@ -216,7 +223,7 @@ class TranlateActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListen
             point1[0].y - point2[0].y
         })
         binding.recyclerView.adapter?.notifyDataSetChanged()
-        if(srcTextList.isNotEmpty()){
+        if (srcTextList.isNotEmpty()) {
             binding.bottomTools.visibility = View.VISIBLE
         }
         this.createRemoteTranslator()

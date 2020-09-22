@@ -41,6 +41,7 @@
     <color name="black_80">#CC000000</color>
     <color name="colorBlack">#000000</color>
     <color name="red_color_80">#CCFC4253</color>
+    <color name="red_color_v2">#FC4253</color>
 
     <color name="red_color">#DA3F47</color>
     <color name="color_d1d1d1">#D1D1D1</color>

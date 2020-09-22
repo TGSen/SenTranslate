@@ -23,7 +23,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.HomeActivity">
+        <activity android:name=".activity.HomeActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,9 +33,11 @@
         </activity>
         <activity android:name=".activity.TranlateActivity"
             android:launchMode="singleTop"
+            android:screenOrientation="portrait"
             />
         <activity android:name=".activity.ImagePickerActivity"
             android:launchMode="singleTop"
+            android:screenOrientation="portrait"
             />
 
         <provider
