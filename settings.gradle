@@ -1,3 +1,4 @@
+include ':appTEst'
 include ':libbase'
 include ':photo'
 include ':app'

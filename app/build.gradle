@@ -12,7 +12,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
+    aaptOptions {
+        noCompress "pdf"
+    }
     defaultConfig {
         applicationId "com.sen.translatev"
         minSdkVersion 21

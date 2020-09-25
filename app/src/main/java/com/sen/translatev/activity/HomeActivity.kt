@@ -83,7 +83,7 @@ class HomeActivity : BaseActivity<ActHomeBinding>(), View.OnClickListener {
                     }.show()
             }
             R.id.pdfOption -> {
-                go(HomeActivity@this, ImagePickerActivity::class.java)
+                go(HomeActivity@this, PdfActivity::class.java)
 
             }
         }

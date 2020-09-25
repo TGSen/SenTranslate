@@ -14,7 +14,10 @@ object PdfConvertToBitmap {
     fun initBitmap(context: Context): Bitmap? {
         mFileDescriptor =
             context.applicationContext.assets.openFd("sample.pdf").parcelFileDescriptor
-        mPdfRenderer = PdfRenderer(mFileDescriptor!!)
+        if(mFileDescriptor!=null){
+            mPdfRenderer = PdfRenderer(mFileDescriptor)
+        }
+
         return createBitmap(0)
     }
 
