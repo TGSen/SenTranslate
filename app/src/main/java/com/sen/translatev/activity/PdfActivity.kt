@@ -9,6 +9,10 @@ import com.sen.translatev.utils.PdfConvertToBitmap
 class PdfActivity : BaseActivity<ActPdfBinding>(), View.OnClickListener  {
     override fun initView() {
         binding.image.setImageBitmap(PdfConvertToBitmap.initBitmap(this))
+        binding.test1.setOnClickListener(View.OnClickListener {
+            binding.image.setImageBitmap(PdfConvertToBitmap.nextPage())
+        })
+
     }
 
     override fun setLayoutId(): Int {
@@ -16,6 +20,7 @@ class PdfActivity : BaseActivity<ActPdfBinding>(), View.OnClickListener  {
     }
 
     override fun onClick(p0: View?) {
+
 
     }
 }

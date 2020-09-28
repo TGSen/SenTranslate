@@ -3,7 +3,9 @@ package com.sen.translatev.utils
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.pdf.PdfRenderer
+import android.os.Environment
 import android.os.ParcelFileDescriptor
+import java.io.File
 
 
 object PdfConvertToBitmap {
@@ -12,8 +14,7 @@ object PdfConvertToBitmap {
     private var mPdfRenderer: PdfRenderer? = null
 
     fun initBitmap(context: Context): Bitmap? {
-        mFileDescriptor =
-            context.applicationContext.assets.openFd("sample.pdf").parcelFileDescriptor
+        mFileDescriptor =ParcelFileDescriptor.open(File(Environment.getExternalStorageDirectory().absolutePath+"/Download/sample.pdf"), ParcelFileDescriptor.MODE_READ_WRITE)
         if(mFileDescriptor!=null){
             mPdfRenderer = PdfRenderer(mFileDescriptor)
         }
