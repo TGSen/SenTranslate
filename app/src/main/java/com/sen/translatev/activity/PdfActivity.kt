@@ -20,6 +20,7 @@ import com.huawei.hms.mlsdk.text.MLText
 import com.huawei.hms.mlsdk.text.MLTextAnalyzer
 import com.huawei.hms.mlsdk.translate.cloud.MLRemoteTranslator
 import com.sen.translatev.R
+import com.sen.translatev.databinding.ActTranslateBinding
 import com.sen.translatev.utils.PdfConvertToBitmap
 import com.zhy.adapter.recyclerview.CommonAdapter
 import com.zhy.adapter.recyclerview.base.ViewHolder
