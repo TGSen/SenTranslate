@@ -39,10 +39,10 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             />
-        <activity android:name=".activity.PdfActivity"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            />
+<!--        <activity android:name=".activity.PdfActivity"-->
+<!--            android:launchMode="singleTop"-->
+<!--            android:screenOrientation="portrait"-->
+<!--            />-->
 
         <provider
             android:name="android.support.v4.content.FileProvider"

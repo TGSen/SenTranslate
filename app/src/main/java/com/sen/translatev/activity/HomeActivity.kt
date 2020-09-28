@@ -83,7 +83,9 @@ class HomeActivity : BaseActivity<ActHomeBinding>(), View.OnClickListener {
                     }.show()
             }
             R.id.pdfOption -> {
-                go(HomeActivity@this, PdfActivity::class.java)
+                var mediaFile = MediaFile()
+                mediaFile.path = Environment.getExternalStorageDirectory().absolutePath+"/Download/sample.pdf"
+                go(HomeActivity@this, PdfActivity::class.java,dto= SenDto(list = arrayListOf(mediaFile)))
 
             }
         }
