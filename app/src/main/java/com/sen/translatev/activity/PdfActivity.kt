@@ -20,6 +20,7 @@ import com.huawei.hms.mlsdk.text.MLText
 import com.huawei.hms.mlsdk.text.MLTextAnalyzer
 import com.huawei.hms.mlsdk.translate.cloud.MLRemoteTranslator
 import com.sen.translatev.R
+import com.sen.translatev.databinding.ActPdfBinding
 import com.sen.translatev.databinding.ActTranslateBinding
 import com.sen.translatev.utils.PdfConvertToBitmap
 import com.zhy.adapter.recyclerview.CommonAdapter
@@ -29,7 +30,7 @@ import kotlinx.android.synthetic.main.act_translate.*
 import utils.setOnSingleClickListener
 
 
-class PdfActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListener {
+class PdfActivity : BaseActivity<ActPdfBinding>(), View.OnClickListener {
     private var heightPixels: Int = 0
     private var marginTop: Int = 0
     private var offsetDistance: Int = 0
@@ -83,7 +84,7 @@ class PdfActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListener {
     }
 
     override fun setLayoutId(): Int {
-        return R.layout.act_translate
+        return R.layout.act_pdf
     }
 
     override fun onClick(p0: View?) {
@@ -92,8 +93,10 @@ class PdfActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListener {
         }
     }
 
+
+
     private fun initBehavior() {
-        val behavior = BottomSheetBehavior.from(binding.NestedScrollView)
+        val behavior = BottomSheetBehavior.from(binding.rootNestedScrollView)
         behavior.isHideable = true
         behavior.state = BottomSheetBehavior.STATE_HIDDEN
         behavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
@@ -152,7 +155,7 @@ class PdfActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListener {
             //返回按钮至根布局的距离
             offsetDistance = lp.topMargin
             behavior.peekHeight =
-                resources.displayMetrics.heightPixels - resources.displayMetrics.widthPixels * 3 / 4 + ConvertUtils.dp2px(
+                resources.displayMetrics.heightPixels - resources.displayMetrics.heightPixels *3 / 4 + ConvertUtils.dp2px(
                     24.0f
                 )
             errorTryWork()

@@ -95,7 +95,7 @@ class TranlateActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListen
     }
 
     private fun initBehavior() {
-        val behavior = BottomSheetBehavior.from(binding.NestedScrollView)
+        val behavior = BottomSheetBehavior.from(binding.rootNestedScrollView)
         behavior.isHideable = true
         behavior.state = BottomSheetBehavior.STATE_HIDDEN
         behavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
@@ -171,6 +171,8 @@ class TranlateActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListen
         }
 
     }
+
+
 
     private fun errorTryWork() {
         if (currentState == STATE_ERROR_TEXT_ANALYZER || currentState == STATE_IDEO) {

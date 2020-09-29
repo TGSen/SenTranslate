@@ -16,7 +16,7 @@
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/constraint"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
 
                 <ImageView
                     android:id="@+id/srcImage"
@@ -24,7 +24,7 @@
                     android:layout_height="0dp"
                     android:scaleType="centerCrop"
                     android:transitionName="cardView"
-                    app:layout_constraintDimensionRatio="w,3:4"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -58,6 +58,7 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
 
                 <android.support.v4.widget.NestedScrollView
                     android:id="@+id/NestedScrollView"
@@ -97,8 +98,8 @@
                             android:layout_height="match_parent"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintLeft_toLeftOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintRight_toRightOf="parent" />
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
 
                     </android.support.constraint.ConstraintLayout>
