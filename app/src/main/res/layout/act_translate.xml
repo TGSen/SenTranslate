@@ -30,13 +30,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
 
-                <!--这里为了方便，使用半透明色遮罩的方式来代替色差值的实现-->
-                <View
-                    android:id="@+id/maskView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:alpha="0"
-                    android:background="#80000000" />
+
 
             </android.support.constraint.ConstraintLayout>
 
@@ -175,13 +169,14 @@
 
         <ImageView
             android:id="@+id/imageClose"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="5dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="@drawable/bg_cicle_48dp_"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="32dp"
-            android:padding="13dp"
-            android:src="@drawable/ic_left_back"
-            android:tint="@color/black_50"
+            android:padding="8dp"
+            android:src="@drawable/ic_back"
+            android:tint="@color/white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </FrameLayout>

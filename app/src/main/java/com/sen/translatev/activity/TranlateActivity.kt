@@ -120,7 +120,7 @@ class TranlateActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListen
 
                 //这里的BottomSheetBehavior初始化完成后，界面设置始终可见，所以不用考虑[-1,0]区间
                 //色差值变化->其实是遮罩的透明度变化，拖拽至最高，顶部成半透明色
-                maskView.alpha = slideOffset
+//                maskView.alpha = slideOffset
                 //offsetDistance是initSystem()中获得的，是返回按钮至根布局的距离
                 distance = offsetDistance * slideOffset
                 //当BottomSheetBehavior由隐藏状态变为折叠状态(即gif图开始的由底部滑出至设置的最小高度)
