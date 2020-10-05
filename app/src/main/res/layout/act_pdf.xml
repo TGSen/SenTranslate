@@ -30,20 +30,15 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
 
-                <!--这里为了方便，使用半透明色遮罩的方式来代替色差值的实现-->
-                <View
-                    android:id="@+id/maskView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:alpha="0"
-                    android:background="#80000000" />
+
 
             </android.support.constraint.ConstraintLayout>
 
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/rootNestedScrollView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="48dp"
                 android:background="@drawable/bg_radius_8_top_lr"
                 android:overScrollMode="never"
                 app:layout_behavior="@string/bottom_sheet_behavior">

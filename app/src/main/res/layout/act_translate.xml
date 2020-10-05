@@ -38,6 +38,7 @@
                 android:id="@+id/rootNestedScrollView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginBottom="48dp"
                 android:background="@drawable/bg_radius_8_top_lr"
                 android:overScrollMode="never"
                 app:layout_behavior="@string/bottom_sheet_behavior">
