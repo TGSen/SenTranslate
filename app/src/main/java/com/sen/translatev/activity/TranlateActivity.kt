@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.Toast
 import base.activity.BaseActivity
 import com.blankj.utilcode.util.ConvertUtils
 import com.gyf.immersionbar.ktx.immersionBar
@@ -26,6 +27,7 @@ import com.zhy.adapter.recyclerview.CommonAdapter
 import com.zhy.adapter.recyclerview.base.ViewHolder
 import imagepicker.MediaFile
 import kotlinx.android.synthetic.main.act_translate.*
+import me.bakumon.statuslayoutmanager.library.OnStatusChildClickListener
 import me.bakumon.statuslayoutmanager.library.StatusLayoutManager
 import utils.setImageContent
 import utils.setOnSingleClickListener
@@ -36,14 +38,11 @@ class TranlateActivity : BaseActivity<ActTranslateVBinding>(), View.OnClickListe
     private var marginTop: Int = 0
     private var offsetDistance: Int = 0
     private lateinit var mHandler: Handler
-    private val STATE_ERROR_TEXT_ANALYZER = 2
-    private val STATE_ERROR_TEXT_TRANSLATE = 3
-    private val STATE_IDEO = 1
-    private var currentState = STATE_IDEO
 
     private var textAnalyzer: MLTextAnalyzer? = null
     private var srcTextList: ArrayList<MLText.TextLine> = ArrayList()
     private var srcImagePath: String? = null
+    var statusLayoutManager:StatusLayoutManager?=null
 
     val TAG = "Harrison"
     override fun initView() {
@@ -64,32 +63,50 @@ class TranlateActivity : BaseActivity<ActTranslateVBinding>(), View.OnClickListe
 
     private fun initRecycleViewAndLayoutState() {
 
-//        binding.recyclerView.layoutManager =
-//            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-//        binding.recyclerView.adapter = object :
-//            CommonAdapter<MLText.TextLine>(
-//                this,
-//                R.layout.item_translate_layout, srcTextList
-//            ) {
-//            override fun convert(holder: ViewHolder?, t: MLText.TextLine?, position: Int) {
-//                holder?.setText(R.id.content, t?.stringValue)
-//            }
-//        }
+        binding.recyclerView.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        binding.recyclerView.adapter = object :
+            CommonAdapter<MLText.TextLine>(
+                this,
+                R.layout.item_translate_layout, srcTextList
+            ) {
+            override fun convert(holder: ViewHolder?, t: MLText.TextLine?, position: Int) {
+                holder?.setText(R.id.content, t?.stringValue)
+            }
+        }
 
-        var statusLayoutManager: StatusLayoutManager =
+        var listener:OnStatusChildClickListener = object : OnStatusChildClickListener {
+            override fun onEmptyChildClick(view: View) {
+
+            }
+
+            override fun onErrorChildClick(view: View) {
+                createRemoteTextAnalyzer()
+            }
+
+            override fun onCustomerChildClick(view: View) {
+//                if (view.id == R.id.tv_customer) {
+//                    Toast.makeText(this@MainActivity, R.string.request_access, Toast.LENGTH_SHORT)
+//                        .show()
+//                } else if (view.id == R.id.tv_customer1) {
+//                    Toast.makeText(this@MainActivity, R.string.switch_account, Toast.LENGTH_SHORT)
+//                        .show()
+//                }
+            }
+        }
+
+
+        statusLayoutManager  =
             StatusLayoutManager.Builder(binding.layoutStateRoot)
-                .setLoadingLayout(R.layout.layout_loading).build() // 设置默认布局属性
-
-        statusLayoutManager.showLoadingLayout()
-
+                .setLoadingLayout(R.layout.layout_loading)
+                .setEmptyLayout(R.layout.layout_empty)
+                .setErrorLayout(R.layout.layout_error)
+                .setErrorClickViewID(R.id.btnErrorClick).setOnStatusChildClickListener(listener).build() // 设置默认布局属性
 
     }
 
     override fun initData() {
         super.initData()
-        if (this.currentState == STATE_IDEO) {
-
-        }
     }
 
     override fun setLayoutId(): Int {
@@ -175,23 +192,18 @@ class TranlateActivity : BaseActivity<ActTranslateVBinding>(), View.OnClickListe
                 resources.displayMetrics.heightPixels - resources.displayMetrics.widthPixels * 3 / 4 + ConvertUtils.dp2px(
                     24.0f
                 )
-            errorTryWork()
-        }
-
-    }
-
-
-    private fun errorTryWork() {
-        if (currentState == STATE_ERROR_TEXT_ANALYZER || currentState == STATE_IDEO) {
-            Log.e("Harrison", "**************errorTryWork")
             createRemoteTextAnalyzer()
-        } else {
-            Log.e("Harrison", "**************errorTryWork else")
+
         }
+
     }
+
+
+
 
     //创建远程文本分析器，去识别文本
     private fun createRemoteTextAnalyzer() {
+        statusLayoutManager?.showLoadingLayout()
         val setting =
             MLRemoteTextSetting.Factory().setTextDensityScene(MLRemoteTextSetting.OCR_LOOSE_SCENE)
                 .create()
@@ -201,41 +213,41 @@ class TranlateActivity : BaseActivity<ActTranslateVBinding>(), View.OnClickListe
         val task: Task<MLText> = this.textAnalyzer?.asyncAnalyseFrame(mlFrame)!!
         task.addOnSuccessListener { mlText -> // Transacting logic for segment success.
             if (mlText != null) {
-                currentState = STATE_IDEO
                 remoteDetectSuccess(mlText)
-
             } else {
-                Log.e("Harrison", "onsuccess fail")
-                displayFailure()
-                currentState = STATE_ERROR_TEXT_ANALYZER
+                statusLayoutManager?.showEmptyLayout()
             }
         }
             .addOnFailureListener(OnFailureListener { e -> // Transacting logic for segment failure.
-                Log.e("Harrison", "onFailure fail " + e.localizedMessage)
-                currentState = STATE_ERROR_TEXT_ANALYZER
-                displayFailure()
+                statusLayoutManager?.showErrorLayout()
                 return@OnFailureListener
             })
     }
 
     private fun remoteDetectSuccess(mlTexts: MLText) {
         val blocks = mlTexts.blocks
-        for (block in blocks) {
-            for (line in block.contents) {
-                if (line.stringValue != null) {
-                    srcTextList.add(line)
+        if(blocks.size>0){
+            for (block in blocks) {
+                for (line in block.contents) {
+                    if (line.stringValue != null) {
+                        srcTextList.add(line)
+                    }
                 }
             }
+            srcTextList.sortWith(Comparator { o1, o2 ->
+                val point1 = o1.vertexes
+                val point2 = o2.vertexes
+                point1[0].y - point2[0].y
+            })
+            binding.recyclerView.adapter?.notifyDataSetChanged()
+            if (srcTextList.isNotEmpty()) {
+                binding.bottomTools.visibility = View.VISIBLE
+            }
+            statusLayoutManager?.showSuccessLayout()
+        }else{
+           statusLayoutManager?.showEmptyLayout()
         }
-        srcTextList.sortWith(Comparator { o1, o2 ->
-            val point1 = o1.vertexes
-            val point2 = o2.vertexes
-            point1[0].y - point2[0].y
-        })
-//        binding.recyclerView.adapter?.notifyDataSetChanged()
-//        if (srcTextList.isNotEmpty()) {
-//            binding.bottomTools.visibility = View.VISIBLE
-//        }
+
         this.createRemoteTranslator()
     }
 
@@ -258,6 +270,7 @@ class TranlateActivity : BaseActivity<ActTranslateVBinding>(), View.OnClickListe
     }
 
     private fun displayFailure() {
+
 
     }
 
