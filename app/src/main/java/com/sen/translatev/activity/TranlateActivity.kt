@@ -102,6 +102,7 @@ class TranlateActivity : BaseActivity<ActTranslateVBinding>(), View.OnClickListe
                 .setEmptyLayout(R.layout.layout_empty)
                 .setErrorLayout(R.layout.layout_error)
                 .setErrorClickViewID(R.id.btnErrorClick).setOnStatusChildClickListener(listener).build() // 设置默认布局属性
+        statusLayoutManager?.showCustomLayout(R.layout.layout_translate_customer)
 
     }
 
@@ -192,7 +193,6 @@ class TranlateActivity : BaseActivity<ActTranslateVBinding>(), View.OnClickListe
                 resources.displayMetrics.heightPixels - resources.displayMetrics.widthPixels * 3 / 4 + ConvertUtils.dp2px(
                     24.0f
                 )
-            createRemoteTextAnalyzer()
 
         }
 
@@ -240,9 +240,6 @@ class TranlateActivity : BaseActivity<ActTranslateVBinding>(), View.OnClickListe
                 point1[0].y - point2[0].y
             })
             binding.recyclerView.adapter?.notifyDataSetChanged()
-            if (srcTextList.isNotEmpty()) {
-                binding.bottomTools.visibility = View.VISIBLE
-            }
             statusLayoutManager?.showSuccessLayout()
         }else{
            statusLayoutManager?.showEmptyLayout()
