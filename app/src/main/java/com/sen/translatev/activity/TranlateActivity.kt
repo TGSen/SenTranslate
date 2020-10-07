@@ -1,7 +1,6 @@
 package com.sen.translatev.activity
 
 import android.graphics.BitmapFactory
-import android.graphics.drawable.LayerDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -22,16 +21,17 @@ import com.huawei.hms.mlsdk.text.MLText
 import com.huawei.hms.mlsdk.text.MLTextAnalyzer
 import com.huawei.hms.mlsdk.translate.cloud.MLRemoteTranslator
 import com.sen.translatev.R
-import com.sen.translatev.databinding.ActTranslateBinding
+import com.sen.translatev.databinding.ActTranslateVBinding
 import com.zhy.adapter.recyclerview.CommonAdapter
 import com.zhy.adapter.recyclerview.base.ViewHolder
 import imagepicker.MediaFile
 import kotlinx.android.synthetic.main.act_translate.*
+import me.bakumon.statuslayoutmanager.library.StatusLayoutManager
 import utils.setImageContent
 import utils.setOnSingleClickListener
 
 
-class TranlateActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListener {
+class TranlateActivity : BaseActivity<ActTranslateVBinding>(), View.OnClickListener {
     private var heightPixels: Int = 0
     private var marginTop: Int = 0
     private var offsetDistance: Int = 0
@@ -59,22 +59,30 @@ class TranlateActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListen
             transparentStatusBar()
         }
         initBehavior()
-        initRecycleView()
+        initRecycleViewAndLayoutState()
     }
 
-    private fun initRecycleView() {
+    private fun initRecycleViewAndLayoutState() {
 
-        binding.recyclerView.layoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        binding.recyclerView.adapter = object :
-            CommonAdapter<MLText.TextLine>(
-                this,
-                R.layout.item_translate_layout, srcTextList
-            ) {
-            override fun convert(holder: ViewHolder?, t: MLText.TextLine?, position: Int) {
-                holder?.setText(R.id.content, t?.stringValue)
-            }
-        }
+//        binding.recyclerView.layoutManager =
+//            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+//        binding.recyclerView.adapter = object :
+//            CommonAdapter<MLText.TextLine>(
+//                this,
+//                R.layout.item_translate_layout, srcTextList
+//            ) {
+//            override fun convert(holder: ViewHolder?, t: MLText.TextLine?, position: Int) {
+//                holder?.setText(R.id.content, t?.stringValue)
+//            }
+//        }
+
+        var statusLayoutManager: StatusLayoutManager =
+            StatusLayoutManager.Builder(binding.layoutStateRoot)
+                .setLoadingLayout(R.layout.layout_loading).build() // 设置默认布局属性
+
+        statusLayoutManager.showLoadingLayout()
+
+
     }
 
     override fun initData() {
@@ -85,7 +93,7 @@ class TranlateActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListen
     }
 
     override fun setLayoutId(): Int {
-        return R.layout.act_translate
+        return R.layout.act_translate_v
     }
 
     override fun onClick(p0: View?) {
@@ -173,7 +181,6 @@ class TranlateActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListen
     }
 
 
-
     private fun errorTryWork() {
         if (currentState == STATE_ERROR_TEXT_ANALYZER || currentState == STATE_IDEO) {
             Log.e("Harrison", "**************errorTryWork")
@@ -225,10 +232,10 @@ class TranlateActivity : BaseActivity<ActTranslateBinding>(), View.OnClickListen
             val point2 = o2.vertexes
             point1[0].y - point2[0].y
         })
-        binding.recyclerView.adapter?.notifyDataSetChanged()
-        if (srcTextList.isNotEmpty()) {
-            binding.bottomTools.visibility = View.VISIBLE
-        }
+//        binding.recyclerView.adapter?.notifyDataSetChanged()
+//        if (srcTextList.isNotEmpty()) {
+//            binding.bottomTools.visibility = View.VISIBLE
+//        }
         this.createRemoteTranslator()
     }
 

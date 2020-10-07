@@ -18,6 +18,7 @@
             <option value="$PROJECT_DIR$/libbase" />
             <option value="$PROJECT_DIR$/library" />
             <option value="$PROJECT_DIR$/photo" />
+            <option value="$PROJECT_DIR$/test" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

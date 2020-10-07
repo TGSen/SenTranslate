@@ -62,4 +62,5 @@ dependencies {
     implementation 'com.zhy:base-rvadapter:3.0.3'
 
     implementation project(path: ':libalbum')
+    implementation project(path: ':library')
 }
