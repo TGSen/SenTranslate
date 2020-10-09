@@ -57,7 +57,6 @@ class ImagePickerActivity : BaseActivity<ActivityImagepickerBinding>(), ImagePic
      */
 
 
-    private var mImageFolderPopupWindow: ImageFolderPopupWindow? = null
 
     private var mGridLayoutManager: GridLayoutManager? = null
     private var mImagePickerAdapter: ImagePickerAdapter? = null
@@ -151,7 +150,6 @@ class ImagePickerActivity : BaseActivity<ActivityImagepickerBinding>(), ImagePic
 
             imgNext.setOnSingleClickListener(this@ImagePickerActivity)
 
-            tvFolders.setOnSingleClickListener(this@ImagePickerActivity)
 
             mRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -181,12 +179,7 @@ class ImagePickerActivity : BaseActivity<ActivityImagepickerBinding>(), ImagePic
             R.id.imgNext -> {
                 commitSelection()
             }
-            R.id.tvFolders -> {
-                if (mImageFolderPopupWindow != null) {
-                    setLightMode(LIGHT_OFF)
-                    mImageFolderPopupWindow?.showAsDropDown(binding.layoutTop, 0, 0)
-                }
-            }
+
         }
     }
 
@@ -254,10 +247,6 @@ class ImagePickerActivity : BaseActivity<ActivityImagepickerBinding>(), ImagePic
 
                     //图片文件夹数据
                     mMediaFolderList = ArrayList(mediaFolderList)
-                    mImageFolderPopupWindow = ImageFolderPopupWindow(this@ImagePickerActivity, mMediaFolderList!!)
-                    //                        mImageFolderPopupWindow.setAnimationStyle(R.style.imageFolderAnimator);
-                    mImageFolderPopupWindow!!.adapter?.setOnImageFolderChangeListener(this@ImagePickerActivity)
-                    mImageFolderPopupWindow!!.setOnDismissListener { setLightMode(LIGHT_ON) }
                     updateCommitButton()
                 }
             }
@@ -265,19 +254,7 @@ class ImagePickerActivity : BaseActivity<ActivityImagepickerBinding>(), ImagePic
     }
 
 
-    /**
-     * 设置屏幕的亮度模式
-     *
-     * @param lightMode
-     */
-    private fun setLightMode(lightMode: Int) {
-        val layoutParams = window.attributes
-        when (lightMode) {
-            LIGHT_OFF -> layoutParams.alpha = 0.7f
-            LIGHT_ON -> layoutParams.alpha = 1.0f
-        }
-        window.attributes = layoutParams
-    }
+
 
 
     /**
@@ -366,18 +343,7 @@ class ImagePickerActivity : BaseActivity<ActivityImagepickerBinding>(), ImagePic
      * @param position
      */
     override fun onImageFolderChange(view: View, position: Int) {
-        val mediaFolder = mMediaFolderList!![position]
-        //更新当前文件夹名
-        val folderName = mediaFolder.folderName
-        if (!TextUtils.isEmpty(folderName)) {
-            binding.tvFolders.text = folderName
-        }
-        //更新图片列表数据源
-        mMediaFileList?.clear()
-        mMediaFileList?.addAll(mediaFolder.mediaFileList!!)
-        mImagePickerAdapter?.notifyDataSetChanged()
 
-        mImageFolderPopupWindow?.dismiss()
     }
 
 
@@ -461,9 +427,7 @@ class ImagePickerActivity : BaseActivity<ActivityImagepickerBinding>(), ImagePic
     companion object {
 
 
-        //表示屏幕亮暗
-        private const val LIGHT_OFF = 0
-        private const val LIGHT_ON = 1
+
 
 
         /**
