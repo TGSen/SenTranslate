@@ -425,6 +425,7 @@ class ImagePickerActivity : BaseActivity<ActivityImagepickerBinding>(), ImagePic
             go(HomeActivity@this,
                 TranlateActivity::class.java,dto= SenDto(list = list)
             )
+            finish()
         }
 //        if (MediaFileUtil.isVideoFileType(list[0].path)) {
 //            list[0]?.path?.let { CutVideoActivity.gotoThis(this@ImagePickerActivity, it) }
