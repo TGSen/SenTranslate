@@ -426,10 +426,6 @@ class ImagePickerActivity : BaseActivity<ActivityImagepickerBinding>(), ImagePic
 
     companion object {
 
-
-
-
-
         /**
          * 大图预览页相关
          */
