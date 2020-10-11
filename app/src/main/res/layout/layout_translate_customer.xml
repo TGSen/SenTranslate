@@ -13,6 +13,8 @@
         android:layout_marginLeft="16dp"
         android:text="中文"
         android:textColor="@color/white"
+        android:drawableRight="@drawable/ic_down_more"
+        android:drawablePadding="8dp"
         android:textSize="14sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -34,18 +36,13 @@
         android:layout_marginLeft="16dp"
         android:text="中文"
         android:textColor="@color/white"
+        android:drawableRight="@drawable/ic_down_more"
+        android:drawablePadding="8dp"
         android:textSize="14sp"
         app:layout_constraintLeft_toRightOf="@+id/imageTran"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Switch
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:thumb="@drawable/switch_custom_thumb_selector"
-        android:track="@drawable/switch_custom_track_selector"
-        app:layout_constraintLeft_toRightOf="@+id/rightTran"
-        app:layout_constraintTop_toTopOf="parent" />
+
 
     <ImageView
         android:layout_width="38dp"
