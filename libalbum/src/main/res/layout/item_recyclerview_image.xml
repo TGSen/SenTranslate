@@ -18,6 +18,7 @@
         android:background="@color/red_color_80"
         android:visibility="gone">
 
+
         <ImageView
             android:id="@+id/check"
             android:layout_width="24dp"
