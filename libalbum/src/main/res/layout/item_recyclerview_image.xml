@@ -11,16 +11,20 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop" />
 
-
-
-
-    <imagepicker.view.SquareImageView
+    <FrameLayout
         android:id="@+id/imgBg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        android:background="@drawable/bg_red_rectangle" />
+        android:background="@color/red_color_80"
+        android:visibility="gone">
 
+        <ImageView
+            android:id="@+id/check"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_check" />
+    </FrameLayout>
 
 
 </imagepicker.view.SquareRelativeLayout>

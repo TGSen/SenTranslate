@@ -35,7 +35,9 @@ import utils.go
 import utils.setOnSingleClickListener
 import java.util.*
 
-class ImagePickerActivity : BaseActivity<ActivityImagepickerBinding>(), ImagePickerAdapter.OnItemClickListener, ImageFoldersAdapter.OnImageFolderChangeListener, View.OnClickListener {
+class ImagePickerActivity : BaseActivity<ActivityImagepickerBinding>(),
+    ImagePickerAdapter.OnItemClickListener, ImageFoldersAdapter.OnImageFolderChangeListener,
+    View.OnClickListener {
     override fun setLayoutId(): Int {
         return R.layout.activity_imagepicker
     }
@@ -57,7 +59,6 @@ class ImagePickerActivity : BaseActivity<ActivityImagepickerBinding>(), ImagePic
      */
 
 
-
     private var mGridLayoutManager: GridLayoutManager? = null
     private var mImagePickerAdapter: ImagePickerAdapter? = null
 
@@ -72,7 +73,7 @@ class ImagePickerActivity : BaseActivity<ActivityImagepickerBinding>(), ImagePic
         super.onCreate(savedInstanceState)
         EventBus.getDefault().register(this)
 //        StatusBarUtil.immersive(this, Color.BLACK)
-        initConfig(isAll = false,isImage = true, isVideo = true)
+        initConfig(isAll = false, isImage = true, isVideo = true)
         getData()
 
     }
@@ -97,14 +98,14 @@ class ImagePickerActivity : BaseActivity<ActivityImagepickerBinding>(), ImagePic
     /**
      * 初始化配置
      */
-    private fun initConfig(isAll:Boolean,isImage:Boolean ,isVideo:Boolean) {
+    private fun initConfig(isAll: Boolean, isImage: Boolean, isVideo: Boolean) {
         ImagePicker.instance
-                .showCamera(false)//设置是否显示拍照按钮
-                .showImage(isImage)//设置是否展示图片
-                .showVideo(isVideo)//设置是否展示视频
-                .setMaxCount(9)//设置最大选择图片数目(默认为1，单选)
-                .setSingleType(isAll)//设置图片视频不能同时选择
-                .setImageLoader(GlideLoader())//设置自定义图片加载器
+            .showCamera(false)//设置是否显示拍照按钮
+            .showImage(isImage)//设置是否展示图片
+            .showVideo(isVideo)//设置是否展示视频
+            .setMaxCount(1)//设置最大选择图片数目(默认为1，单选)
+            .setSingleType(isAll)//设置图片视频不能同时选择
+            .setImageLoader(GlideLoader())//设置自定义图片加载器
 
         isShowCamera = ConfigManager.instance.isShowCamera
         isShowImage = ConfigManager.instance.isShowImage
@@ -122,8 +123,6 @@ class ImagePickerActivity : BaseActivity<ActivityImagepickerBinding>(), ImagePic
     }
 
 
-
-
     /**
      * 初始化布局控件
      */
@@ -134,7 +133,8 @@ class ImagePickerActivity : BaseActivity<ActivityImagepickerBinding>(), ImagePic
             mRecyclerView.addItemDecoration(GridItemDecoration(4, GridItemDecoration.GRIDLAYOUT))
             mRecyclerView.setHasFixedSize(true)
             mMediaFileList = ArrayList()
-            mImagePickerAdapter = ImagePickerAdapter(this@ImagePickerActivity, mMediaFileList, mSelectionManager)
+            mImagePickerAdapter =
+                ImagePickerAdapter(this@ImagePickerActivity, mMediaFileList, mSelectionManager)
             mImagePickerAdapter?.setOnItemClickListener(this@ImagePickerActivity)
             mRecyclerView.adapter = mImagePickerAdapter
         }
@@ -187,17 +187,20 @@ class ImagePickerActivity : BaseActivity<ActivityImagepickerBinding>(), ImagePic
      * 获取数据源
      */
     private fun getData() {
-        SPermission.getInstance().hasPermissions(this, Permission.Group.STORAGE, object : SPermission.OnPermissionListener {
-            override fun onSuccess() {
+        SPermission.getInstance().hasPermissions(
+            this,
+            Permission.Group.STORAGE,
+            object : SPermission.OnPermissionListener {
+                override fun onSuccess() {
 //                CameraPreviewActivity.goto(this@)
-                startScannerTask()
-            }
+                    startScannerTask()
+                }
 
-            override fun onFaild() {
-                ToastUtils.showShort("Camera is get onFaild")
-            }
+                override fun onFaild() {
+                    ToastUtils.showShort("Camera is get onFaild")
+                }
 
-        })
+            })
 
 
     }
@@ -254,9 +257,6 @@ class ImagePickerActivity : BaseActivity<ActivityImagepickerBinding>(), ImagePic
     }
 
 
-
-
-
     /**
      * 选中/取消选中图片
      *
@@ -273,40 +273,20 @@ class ImagePickerActivity : BaseActivity<ActivityImagepickerBinding>(), ImagePic
         //执行选中/取消操作
         val mediaFile = mImagePickerAdapter?.getMediaFile(position)
         if (mediaFile != null) {
-            val imagePath = mediaFile.path
-            if (isSingleType && imagePath != null) {
-                //如果是单类型选取，判断添加类型是否满足（照片视频不能共存）
-                val selectPathList = mSelectionManager.selectPaths
-                if (selectPathList.isNotEmpty()) {
-                    //判断选中集合中第一项是否为视频
-                    selectPathList[0]?.path?.let {
-                        if (!mSelectionManager.isCanAddSelectionPaths(imagePath, it)) {
-                            //类型不同
-                       //     Toast.makeText(this, getString(R.string.single_type_choose), Toast.LENGTH_SHORT).show()
-                            return
-                        }
-                    }
-
-                }
-            }
-
-            //如果当前为视频，那么清除之前的，并跳转裁剪页面
-//            if (MediaFileUtil.isVideoFileType(imagePath)) {
-//                //如果是视频那就保证只有一个
-//                mSelectionManager.removeAll()
-////                imagePath?.let { CutVideoActivity.gotoThis(this@ImagePickerActivity, it) }
-//                return
-//            }
-
-            val addSuccess = mSelectionManager.addImageToSelectList(mediaFile,position)
-            if (addSuccess) {
-                mImagePickerAdapter?.notifyItemChanged(position)
-
-            } else {
-                Toast.makeText(this, String.format(getString(R.string.select_image_max), mMaxCount), Toast.LENGTH_SHORT).show()
-            }
+            mSelectionManager.addJustOneToSelectList(mediaFile, position)
+            notifayItemChange()
         }
         updateCommitButton()
+    }
+
+    private fun notifayItemChange() {
+        mSelectionManager.needDelectedPaths.forEach {
+            mImagePickerAdapter?.notifyItemChanged(it.position,"payload")
+        }
+        mSelectionManager.selectPaths.forEach {
+            mImagePickerAdapter?.notifyItemChanged(it.position,"payload")
+        }
+        mSelectionManager.needDelectedPaths.clear()
     }
 
     /**
@@ -317,11 +297,11 @@ class ImagePickerActivity : BaseActivity<ActivityImagepickerBinding>(), ImagePic
         //改变确定按钮UI
         val selectCount = mSelectionManager.selectPaths.size
         if (selectCount == 0) {
-           // binding.tvNext.isEnabled = false
+            // binding.tvNext.isEnabled = false
 //            binding.tvNext.text = getString(R.string.next)
             return
         } else {
-           // binding.tvNext.isEnabled = true
+            // binding.tvNext.isEnabled = true
             //binding.tvNext.text = String.format(getString(R.string.next_select_count), selectCount)
         }
         mImagePickerAdapter?.showVideoMask()
@@ -333,7 +313,7 @@ class ImagePickerActivity : BaseActivity<ActivityImagepickerBinding>(), ImagePic
      */
     private fun showCamera() {
 
-    //    CameraPreviewActivity.gotoThis(this)
+        //    CameraPreviewActivity.gotoThis(this)
     }
 
     /**
@@ -387,9 +367,10 @@ class ImagePickerActivity : BaseActivity<ActivityImagepickerBinding>(), ImagePic
 //        SelectionManager.getInstance().removeAll()//清空选中记录
 //        finish()
         val list = ArrayList(mSelectionManager.selectPaths)
-        if(list.size>0){
-            go(HomeActivity@this,
-                TranlateActivity::class.java,dto= SenDto(list = list)
+        if (list.size > 0) {
+            go(
+                HomeActivity@ this,
+                TranlateActivity::class.java, dto = SenDto(list = list)
             )
             finish()
         }

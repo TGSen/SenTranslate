@@ -70,6 +70,24 @@ class SelectionManager {
         }
     }
 
+    fun addJustOneToSelectList(imagePath: MediaFile, position: Int) {
+        if (selectPaths.size < maxCount) {
+            imagePath.seletedIndex = selectSize() + 1
+            imagePath.position = position
+            selectPaths.add(imagePath)
+        } else {
+            //先判断是不是自己
+            var first = selectPaths[0]
+            needDelectedPaths.add(first)
+            selectPaths.clear()
+            if (first.path != imagePath.path) {
+                imagePath.seletedIndex = selectSize() + 1
+                imagePath.position = position
+                selectPaths.add(imagePath)
+            }
+        }
+    }
+
     /**
      * 这个是提供明明知道需要添加的
      */

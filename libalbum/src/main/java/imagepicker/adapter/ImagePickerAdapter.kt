@@ -6,6 +6,7 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import com.sen.libalbum.R
@@ -251,7 +252,7 @@ class ImagePickerAdapter(private val mContext: Context, private val mMediaFileLi
     internal open inner class MediaHolder(itemView: View) : BaseHolder(itemView) {
         var mImageView: SquareImageView = itemView.findViewById(R.id.iv_item_image)
         var mImageCheck: ImageView? = itemView.findViewById(R.id.iv_item_check)
-        var imgeSeletedBg: ImageView? = itemView.findViewById(R.id.imgBg)
+        var imgeSeletedBg:FrameLayout = itemView.findViewById(R.id.imgBg)
     }
 
     /**
